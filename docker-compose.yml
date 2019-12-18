@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+
+  api:
+    build: ./api
+    working_dir: /ivm
+    networks:
+      - api
+    volumes:
+      - ./api:/ivm
+
+  nginx:
+    image: nginx:1.15
+    working_dir: /ivm
+    networks:
+      - api
+    ports:
+      - "8080:80"
+    volumes:
+      - ./api:/ivm
+      - ./ui:/ui
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+networks:
+  api:
