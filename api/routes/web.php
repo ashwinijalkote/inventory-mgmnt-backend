@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Http\Response;
+use \App\Product;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -33,3 +34,20 @@ $router->post(
 );
 
 $router->post('web/login', 'AuthController@login');
+
+$router->get('/products', function () use ($router) {
+    return response()->json(DB::select('select * from products'))
+    ->header('Access-Control-Allow-Origin', '*');
+});
+
+$router->patch('/products/{id}', function ($id) use ($router) {
+    $product = Product::where('id', $id)->first();
+    if(!$product) {
+        return response()->json(['message' => 'Product not found'], 404)->header('Access-Control-Allow-Origin', '*');
+    }
+    $product->update([
+    'status' => 'approved']);
+
+    return response()->json($product)
+    ->header('Access-Control-Allow-Origin', '*')->header("Access-Control-Allow-Methods", "GET, POST, PATCH, OPTIONS");
+});

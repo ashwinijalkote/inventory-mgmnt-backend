@@ -93,10 +93,9 @@ class AuthController extends BaseController
             ]);
 
             $credentials = $request->only(['email', 'password']);
-            Log::info($request->only('email'));
-            if (! $token = Auth::check(['email' => $request->only('email')
-            , 'password' => $request->only('password'),false, false])) {
-                return response()->json(['message' => 'Unauthorized'], 401);
+            if (! $token = Auth::check(['email' => $credentials['email']
+            , 'password' => $credentials['password'],false, false])) {
+                return response()->json(['message' => 'Unauthorized.' .$credentials['email']], 401);
             }
 
             return $this->respondWithToken($token);

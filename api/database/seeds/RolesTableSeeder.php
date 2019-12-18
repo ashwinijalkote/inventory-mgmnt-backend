@@ -15,7 +15,7 @@ class RolesTableSeeder extends Seeder
                             'role' => 'StoreManager',
                             ]);
          DB::table('roles')->insert([
-                                     'role' => 'StoreManager',
+                                     'role' => 'StoreAssistant',
                                      ]);
     }
 }
